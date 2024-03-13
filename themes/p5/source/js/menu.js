@@ -41,11 +41,11 @@ const selector = Snap('.selector');
 console.log(selector)
 const red = selector.select('.red');
 const blue = selector.select('.blue');
-let menuRect = document.querySelector('.menu').getBoundingClientRect();
+// let menuRect = document.querySelector('.menu').getBoundingClientRect();
 // note: this is very unperformant.
 // but I am lazy. and this is for fun.
 window.addEventListener('resize', () => {
-    menuRect = document.querySelector('.menu').getBoundingClientRect();
+    clrCursor();
 });
 
 const animate = () => {
@@ -69,34 +69,56 @@ const animate = () => {
     });
 };
 
-const keydownHandler = (e) => {
-    function moveDown() {
-        currentMenuItem++;
-        if (currentMenuItem > menuPositions.length - 1) {
-            currentMenuItem = menuPositions.length - 1;
-        }
-        moveCursor();
-    }
+const menuList = [
+    { title: "GitHub", link: "" },
+    { title: "BLOG", link: "" },
+    { title: "DISCORD", link: "https://www.bing.com" },
+    { title: "BILIBILI", link: "https://www.bing.com" },
+    { title: "TELEGRAM", link: "https://www.bing.com" },
+    { title: "About", link: "" }
+];
+for (var i in menuList) {
+    var menu = document.getElementById("menu-title");
+    var para = document.createElement("p");
+    var a = document.createElement("a");
+    a.href = menuList[i]["link"]
+    a.target = "_blank"
+    var node = document.createTextNode(menuList[i]["title"]);
+    para.appendChild(a);
+    para.addEventListener("mouseover", hover);
+    para.addEventListener("mouseout", clrCursor);
+    a.appendChild(node);
+    menu.appendChild(para);
+}
 
-    function moveUp() {
-        currentMenuItem--;
-        if (currentMenuItem < 0) {
-            currentMenuItem = 0;
-        }
-        moveCursor();
-    }
+// const keydownHandler = (e) => {
+//     function moveDown() {
+//         currentMenuItem++;
+//         if (currentMenuItem > menuPositions.length - 1) {
+//             currentMenuItem = menuPositions.length - 1;
+//         }
+//         moveCursor();
+//     }
 
-    switch (e.keyCode) {
-        case 38:
-            moveUp();
-            e.preventDefault();
-            break;
-        case 40:
-            moveDown();
-            e.preventDefault();
-            break;
-    }
-};
+//     function moveUp() {
+//         currentMenuItem--;
+//         if (currentMenuItem < 0) {
+//             currentMenuItem = 0;
+//         }
+//         moveCursor();
+//     }
+
+//     switch (e.keyCode) {
+//         case 38:
+//             moveUp();
+//             e.preventDefault();
+//             break;
+//         case 40:
+//             moveDown();
+//             e.preventDefault();
+//             break;
+//     }
+// };
 
 const moveCursor = () => {
     const cursor = document.querySelector('.selector');
@@ -106,12 +128,20 @@ const moveCursor = () => {
     cursor.style.height = menuPositions[currentMenuItem].height;
 };
 
+function selectCursor(left, top, width, height) {
+    const cursor = document.querySelector('.selector');
+    cursor.style.left = left;
+    cursor.style.top = top;
+    cursor.style.width = width;
+    cursor.style.height = height;
+};
+
 const mousemoveHandler = (evt) => {
     const y = evt.clientY + window.scrollY;
     const pos = 100 * y / menuRect.height;
     for (let i = menuPositions.length - 1; i >= 0; i--) {
         const top = parseFloat(menuPositions[i].top);
-        console.log({ pos, top });
+        // console.log({ pos, top });
         if (pos >= top) {
             currentMenuItem = i;
             moveCursor();
@@ -119,9 +149,48 @@ const mousemoveHandler = (evt) => {
         }
     }
 };
+function hover(e) {
+    var tar = e.target
+    // console.log(getElementTop(tar))
+    var centerY = getElementTop(tar) + tar.offsetHeight / 2 + 'px'
+    var centerX = getElementLeft(tar) + tar.offsetWidth / 2 + 'px'
+    // var width = tar.offsetWidth + 'px'
+    selectCursor(centerX, centerY, "25%", "10%")
+
+    document.querySelector('.selector').style.display = "inline";
+    return centerY
+}
+
+function clrCursor() {
+    document.querySelector('.selector').style.display = "none";
+}
+
+function getElementLeft(element) {
+    var actualLeft = element.offsetLeft;
+    var current = element.offsetParent;
+
+    while (current !== null) {
+        actualLeft += current.offsetLeft;
+        current = current.offsetParent;
+    }
+
+    return actualLeft;
+}
+
+function getElementTop(element) {
+    var actualTop = element.offsetTop;
+    var current = element.offsetParent;
+
+    while (current !== null) {
+        actualTop += current.offsetTop;
+        current = current.offsetParent;
+    }
+
+    return actualTop;
+}
 
 // Show me your true form!
 
-document.addEventListener('keydown', keydownHandler);
-document.querySelector('.menu').addEventListener('mousemove', mousemoveHandler);
+// document.addEventListener('keydown', keydownHandler);
+// document.querySelector('.menu').addEventListener('mousemove', mousemoveHandler);
 setInterval(animate, animationSpeed);

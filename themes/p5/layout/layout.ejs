@@ -7,11 +7,15 @@
   <!-- 引入配置文件 -->
   <%- css('css/main.css') %>
 </head>
+<script>
+  CSS.registerProperty({ name: '--ang', syntax: '<angle>', initialValue: '0deg', inherits: true });
+</script>
 
 <body>
   <!-- <%- include("index.ejs") %> -->
-    <%- include("menu.ejs") %>
+  <%- include("menu.ejs") %>
 </body>
 <%- js('js/snap.svg.js') %>
-<%- js('js/menu.js') %>
+  <%- js('js/menu.js') %>
+
 </html>
