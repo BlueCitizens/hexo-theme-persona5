@@ -70,19 +70,20 @@ const animate = () => {
 };
 
 const menuList = [
-    { title: "GitHub", link: "" },
-    { title: "BLOG", link: "" },
-    { title: "DISCORD", link: "https://www.bing.com" },
-    { title: "BILIBILI", link: "https://www.bing.com" },
-    { title: "TELEGRAM", link: "https://www.bing.com" },
-    { title: "About", link: "" }
+    { name: "menu-github", title: "GitHub", link: "https://github.com/BlueCitizens/hexo-theme-persona5", target: "_blank" },
+    { name: "menu-blog", title: "BLOG", link: "https://blog.bckun.top", target: "_blank" },
+    { name: "menu-steam", title: "STEAM", link: "", target: "_blank" },
+    { name: "menu-bilibili", title: "BILIBILI", link: "https://space.bilibili.com/3718581", target: "_blank" },
+    { name: "menu-email", title: "EMAIL", link: "", target: "_blank" },
+    { name: "menu-about", title: "ABOUT", link: "javascript:showAbout", target: "" }
 ];
 for (var i in menuList) {
     var menu = document.getElementById("menu-title");
     var para = document.createElement("p");
     var a = document.createElement("a");
+    a.setAttribute("class", menuList[i]["name"])
     a.href = menuList[i]["link"]
-    a.target = "_blank"
+    a.target = menuList[i]["target"]
     var node = document.createTextNode(menuList[i]["title"]);
     para.appendChild(a);
     para.addEventListener("mouseover", hover);
@@ -90,6 +91,10 @@ for (var i in menuList) {
     a.appendChild(node);
     menu.appendChild(para);
 }
+
+document.querySelector(".menu-about").addEventListener("click", showAbout)
+
+document.getElementById("about-close").addEventListener("click", closeAbout)
 
 // const keydownHandler = (e) => {
 //     function moveDown() {
@@ -187,6 +192,18 @@ function getElementTop(element) {
     }
 
     return actualTop;
+}
+
+function showAbout() {
+
+    const about = document.querySelector('.about');
+    about.style.display = "inline";
+}
+
+function closeAbout() {
+
+    const about = document.querySelector('.about');
+    about.style.display = "none";
 }
 
 // Show me your true form!

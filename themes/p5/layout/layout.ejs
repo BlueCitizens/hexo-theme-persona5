@@ -6,16 +6,34 @@
   <meta charset="utf-8">
   <!-- 引入配置文件 -->
   <%- css('css/main.css') %>
+  <%- css('css/about.css') %>
 </head>
-<script>
-  CSS.registerProperty({ name: '--ang', syntax: '<angle>', initialValue: '0deg', inherits: true });
-</script>
 
 <body>
+  <div class="loading">
+    <img class="spinner" src="img/joker_megane.png">
+    <img style="margin: auto; display: block;" src="img/take_your_time.png">
+  </div>
   <!-- <%- include("index.ejs") %> -->
   <%- include("menu.ejs") %>
+  <%- include("about.ejs") %>
 </body>
+<script>
+  // 获取动画
+  let loader = document.querySelector(".loading");
+  let body = document.querySelector('.container')
+  // 加载完成事件
+  window.onload = function () {
+    setTimeout(() => {
+      // 加载完成，隐藏动画，显示内容
+      loader.style.display = "none";
+      body.style.display = 'inline';
+    }, "2000");
+    console.log('yes')
+  }
+</script>
 <%- js('js/snap.svg.js') %>
   <%- js('js/menu.js') %>
+
 
 </html>
