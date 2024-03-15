@@ -16,17 +16,17 @@ const verticalEdgePadding = 0;
 const horizontalCenterPadding = 20;
 const verticalCenterPadding = 5;
 
-const menuPositions = [
-    { left: '50%', top: '26.5%', width: '15%', height: '8%' },
-    { left: '51%', top: '32.4%', width: '15%', height: '8%' },
-    { left: '46%', top: '38%', width: '24%', height: '8%' },
-    { left: '43%', top: '43.3%', width: '20%', height: '8%' },
-    { left: '45.5%', top: '50%', width: '20%', height: '8%' },
-    { left: '39%', top: '55.2%', width: '32%', height: '7%' },
-    { left: '40%', top: '61%', width: '20%', height: '8%' },
-    { left: '42.5%', top: '66.6%', width: '20%', height: '8%' },
-    { left: '41.25%', top: '72%', width: '20%', height: '8%' },
-];
+// const menuPositions = [
+//     { left: '50%', top: '26.5%', width: '15%', height: '8%' },
+//     { left: '51%', top: '32.4%', width: '15%', height: '8%' },
+//     { left: '46%', top: '38%', width: '24%', height: '8%' },
+//     { left: '43%', top: '43.3%', width: '20%', height: '8%' },
+//     { left: '45.5%', top: '50%', width: '20%', height: '8%' },
+//     { left: '39%', top: '55.2%', width: '32%', height: '7%' },
+//     { left: '40%', top: '61%', width: '20%', height: '8%' },
+//     { left: '42.5%', top: '66.6%', width: '20%', height: '8%' },
+//     { left: '41.25%', top: '72%', width: '20%', height: '8%' },
+// ];
 
 // Animation
 
@@ -72,10 +72,10 @@ const animate = () => {
 const menuList = [
     { name: "menu-github", title: "GitHub", link: "https://github.com/BlueCitizens/hexo-theme-persona5", target: "_blank" },
     { name: "menu-blog", title: "BLOG", link: "https://blog.bckun.top", target: "_blank" },
-    { name: "menu-steam", title: "STEAM", link: "", target: "_blank" },
+    // { name: "menu-steam", title: "STEAM", link: "", target: "_blank" },
     { name: "menu-bilibili", title: "BILIBILI", link: "https://space.bilibili.com/3718581", target: "_blank" },
-    { name: "menu-email", title: "EMAIL", link: "", target: "_blank" },
-    { name: "menu-about", title: "ABOUT", link: "javascript:showAbout", target: "" }
+    { name: "menu-contact", title: "CONTACT", link: "javascript:void(0)", target: "" },
+    { name: "menu-about", title: "ABOUT", link: "javascript:void(0)", target: "" }
 ];
 for (var i in menuList) {
     var menu = document.getElementById("menu-title");
@@ -93,6 +93,16 @@ for (var i in menuList) {
 }
 
 document.querySelector(".menu-about").addEventListener("click", showAbout)
+
+document.querySelector(".menu-contact").addEventListener("click", showContact)
+
+document.querySelector('.contact').addEventListener('click', event => {
+    document.querySelector('.contact').style.display = "none";  // chromium内核
+});
+
+// document.querySelector('.contact img').addEventListener('click', event => {
+//     event.stopPropagation();  // chromium内核
+// });
 
 document.getElementById("about-close").addEventListener("click", closeAbout)
 
@@ -125,13 +135,13 @@ document.getElementById("about-close").addEventListener("click", closeAbout)
 //     }
 // };
 
-const moveCursor = () => {
-    const cursor = document.querySelector('.selector');
-    cursor.style.left = menuPositions[currentMenuItem].left;
-    cursor.style.top = menuPositions[currentMenuItem].top;
-    cursor.style.width = menuPositions[currentMenuItem].width;
-    cursor.style.height = menuPositions[currentMenuItem].height;
-};
+// const moveCursor = () => {
+//     const cursor = document.querySelector('.selector');
+//     cursor.style.left = menuPositions[currentMenuItem].left;
+//     cursor.style.top = menuPositions[currentMenuItem].top;
+//     cursor.style.width = menuPositions[currentMenuItem].width;
+//     cursor.style.height = menuPositions[currentMenuItem].height;
+// };
 
 function selectCursor(left, top, width, height) {
     const cursor = document.querySelector('.selector');
@@ -141,19 +151,19 @@ function selectCursor(left, top, width, height) {
     cursor.style.height = height;
 };
 
-const mousemoveHandler = (evt) => {
-    const y = evt.clientY + window.scrollY;
-    const pos = 100 * y / menuRect.height;
-    for (let i = menuPositions.length - 1; i >= 0; i--) {
-        const top = parseFloat(menuPositions[i].top);
-        // console.log({ pos, top });
-        if (pos >= top) {
-            currentMenuItem = i;
-            moveCursor();
-            break;
-        }
-    }
-};
+// const mousemoveHandler = (evt) => {
+//     const y = evt.clientY + window.scrollY;
+//     const pos = 100 * y / menuRect.height;
+//     for (let i = menuPositions.length - 1; i >= 0; i--) {
+//         const top = parseFloat(menuPositions[i].top);
+//         // console.log({ pos, top });
+//         if (pos >= top) {
+//             currentMenuItem = i;
+//             moveCursor();
+//             break;
+//         }
+//     }
+// };
 function hover(e) {
     var tar = e.target
     // console.log(getElementTop(tar))
@@ -200,12 +210,20 @@ function showAbout() {
     about.style.display = "inline";
 }
 
+function showContact() {
+
+    const contact = document.querySelector('.contact');
+    contact.style.display = "block";
+}
+
+function closeContact() {
+    
+}
 function closeAbout() {
 
     const about = document.querySelector('.about');
     about.style.display = "none";
 }
-
 // Show me your true form!
 
 // document.addEventListener('keydown', keydownHandler);
